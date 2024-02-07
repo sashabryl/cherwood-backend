@@ -3,5 +3,3 @@
 set -o errexit
 
 gunicorn cherwood_shop.wsgi:application
-
-celery -A cherwood_shop flower
