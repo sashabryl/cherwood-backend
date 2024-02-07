@@ -12,4 +12,4 @@ celery -A cherwood_shop worker -l info
 
 celery -A cherwood_shop beat -l info
 
-celery -A cherwood_shop flower --address=0.0.0.0
+celery celery flower
