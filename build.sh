@@ -11,5 +11,3 @@ python manage.py migrate
 celery -A cherwood_shop worker -l info
 
 celery -A cherwood_shop beat -l info
-
-celery flower
