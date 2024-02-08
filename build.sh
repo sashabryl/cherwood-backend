@@ -7,3 +7,7 @@ pip install -r requirements.txt
 
 python manage.py collectstatic --no-input
 python manage.py migrate
+
+celery -A cherwood_shop worker -l info --detach
+
+celery -A cherwood_shop beat -l info --detach
