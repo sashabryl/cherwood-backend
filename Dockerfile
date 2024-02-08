@@ -1,25 +1,30 @@
-pFROM python:3.10.4-slim
-LABEL maintainer="arturiermolenko@gmail.com"
+ARG PYTHON_VERSION=3.11-slim-bullseye
 
+FROM python:${PYTHON_VERSION}
+
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR app/
+# install psycopg2 dependencies.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN mkdir -p /code
 
-COPY . .
+WORKDIR /code
 
-RUN mkdir -p /vol/web/media
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
 
-RUN adduser \
-    --disabled-password \
-    --no-create-home \
-    django-user
+ENV SECRET_KEY "45pKGQQnoC8S0c16K3iTbfoJQwh4snj5c3OZrPArxyIt8p8xS0"
+RUN python manage.py collectstatic --noinput
 
-RUN chown -R django-user:django-user /vol/
-RUN chmod -R 755 /vol/web/
-RUN chgrp -R www-data /vol/web/
-RUN chmod -R g+w  /vol/web/
+EXPOSE 8000
 
-USER django-user
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "cherwood_shop.wsgi"]

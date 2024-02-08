@@ -53,7 +53,6 @@ class User(AbstractUser):
     tel_number = models.CharField(
         max_length=10,
         blank=True,
-        unique=True,
         validators=[
             RegexValidator(
                 r"^\d{10}$",
