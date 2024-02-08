@@ -25,5 +25,5 @@ class OrderCreateView(generics.CreateAPIView):
                 product_id=product_id,
                 quantity=cart.cart[product_id]["quantity"]
             )
-        send_email.delay(order.id)
         cart.clear()
+        send_email.delay(order.id)
