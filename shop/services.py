@@ -52,8 +52,9 @@ class Cart(metaclass=SingletonMeta):
         """
         Remove 1 item of product from the cart
         """
-        self.cart[product_id]["quantity"] -= 1
-        self.save()
+        if self.cart.get(product_id) and self.cart.get(product_id, 0) > 0:
+            self.cart[product_id]["quantity"] -= 1
+            self.save()
 
     def remove_item(self, product_id: str):
         """
@@ -88,3 +89,4 @@ class Cart(metaclass=SingletonMeta):
         """
         for prod_id in list(self.cart.keys()):
             self.remove_item(prod_id)
+        self.save()
