@@ -6,6 +6,7 @@
 app = 'cherwood-backend-cold-river-1843-quiet-breeze-3861'
 primary_region = 'waw'
 console_command = '/code/manage.py shell'
+SESSION_DRIVER = "cookie"
 
 [build]
 

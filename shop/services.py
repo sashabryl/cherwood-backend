@@ -56,6 +56,10 @@ class Cart(metaclass=SingletonMeta):
             self.cart[product_id]["quantity"] -= 1
             self.save()
 
+        if self.cart.get(product_id, 0) == 0:
+            self.remove_item(product_id)
+            self.save()
+
     def remove_item(self, product_id: str):
         """
         Remove a product from the cart
@@ -70,9 +74,10 @@ class Cart(metaclass=SingletonMeta):
         :return: dict of all products in the cart
         """
         for key, value in self.cart.items():
-            value["id"] = int(key)
-            value["price"] = Decimal(value["price"])
-            value["total_price"] = value["price"] * value["quantity"]
+            if value["quantity"] > 0:
+                value["id"] = int(key)
+                value["price"] = Decimal(value["price"])
+                value["total_price"] = value["price"] * value["quantity"]
         return self.cart.values()
 
     def get_total_price(self):

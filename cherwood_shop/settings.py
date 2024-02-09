@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import uuid
 from datetime import timedelta
 from pathlib import Path
 
@@ -223,8 +224,10 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_HEADERS = True
 CORS_ALLOW_CSRF_COOKIE = True
 
+CSRF_TRUSTED_ORIGINS = [f"https://{APP_NAME}.fly.dev",]
 
-CART_SESSION_ID = "cart"
+
+CART_SESSION_ID = f"cart-{uuid.uuid4()}"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
