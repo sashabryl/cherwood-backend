@@ -2,7 +2,7 @@ from django.conf import settings
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from order.models import Order
+from order.models import Order, OrderItem
 
 
 class OrderCreateSerializer(serializers.ModelSerializer):
@@ -30,8 +30,15 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         raise ValidationError(f"{value} is not a possible choice.")
 
 
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ("product", "quantity", "calculate_total")
+
+
 class OrderListSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(read_only=True, format="%d/%m/%Y, %H:%M:%S")
+    order_items = OrderItemSerializer(many=True)
 
     class Meta:
         model = Order

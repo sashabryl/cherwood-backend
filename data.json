@@ -1223,54 +1223,6 @@
     }
   },
   {
-    "model": "contenttypes.contenttype",
-    "pk": 9,
-    "fields": {
-      "app_label": "shop",
-      "model": "category"
-    }
-  },
-  {
-    "model": "contenttypes.contenttype",
-    "pk": 10,
-    "fields": {
-      "app_label": "shop",
-      "model": "product"
-    }
-  },
-  {
-    "model": "contenttypes.contenttype",
-    "pk": 11,
-    "fields": {
-      "app_label": "shop",
-      "model": "productimage"
-    }
-  },
-  {
-    "model": "contenttypes.contenttype",
-    "pk": 12,
-    "fields": {
-      "app_label": "shop",
-      "model": "subcategory"
-    }
-  },
-  {
-    "model": "contenttypes.contenttype",
-    "pk": 13,
-    "fields": {
-      "app_label": "order",
-      "model": "order"
-    }
-  },
-  {
-    "model": "contenttypes.contenttype",
-    "pk": 14,
-    "fields": {
-      "app_label": "order",
-      "model": "orderitem"
-    }
-  },
-  {
     "model": "sessions.session",
     "pk": "90ya4wkjoe7owxg2p4wgv44a7gkypedv",
     "fields": {
