@@ -9,11 +9,11 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 
-from shop.models import Category, Product, ProductImage
+from shop.models import Category, Product
 from shop.serializers import (
     CategorySerializer,
     ProductSerializer,
-    ProductImageSerializer, CartAPISerializer, AddRemoveFavouriteSerializer
+    CartAPISerializer, AddRemoveFavouriteSerializer
 )
 from shop.services import Cart
 
@@ -35,12 +35,6 @@ class ProductViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericVi
         .order_by("id")
     )
     serializer_class = ProductSerializer
-    permission_classes = (AllowAny,)
-
-
-class ProductImageViewSet(mixins.ListModelMixin, GenericViewSet):
-    queryset = ProductImage.objects.all()
-    serializer_class = ProductImageSerializer
     permission_classes = (AllowAny,)
 
 

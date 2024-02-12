@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 
@@ -14,16 +15,17 @@ class OrderCreateView(generics.CreateAPIView):
     authentication_classes = []
 
     def perform_create(self, serializer):
-        cart = Cart(self.request)
-        if not list(cart.cart.keys()):
-            raise ValidationError("Put something in your cart please.")
-        order = serializer.save(total=cart.get_total_price())
-        product_ids = cart.cart.keys()
-        for product_id in product_ids:
-            OrderItem.objects.create(
-                order=order,
-                product_id=product_id,
-                quantity=cart.cart[product_id]["quantity"]
-            )
-        cart.clear()
-        send_email.delay(order.id)
+        with transaction.atomic():
+            cart = Cart(self.request)
+            if not list(cart.cart.keys()):
+                raise ValidationError("Put something in your cart please.")
+            order = serializer.save(total=cart.get_total_price())
+            product_ids = cart.cart.keys()
+            for product_id in product_ids:
+                OrderItem.objects.create(
+                    order=order,
+                    product_id=product_id,
+                    quantity=cart.cart[product_id]["quantity"]
+                )
+            cart.clear()
+            send_email.delay(order.id)
