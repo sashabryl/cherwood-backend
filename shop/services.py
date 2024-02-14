@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 from .models import Product
 
@@ -38,7 +39,7 @@ class Cart(metaclass=SingletonMeta):
         Add product to the cart or add one item to cart
         """
 
-        product = Product.objects.get(id=product_id)
+        product = get_object_or_404(Product, id=product_id)
         if product_id not in self.cart:
             self.cart[product_id] = {
                 "quantity": 1,
