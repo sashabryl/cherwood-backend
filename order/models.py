@@ -1,3 +1,4 @@
+import datetime
 from decimal import Decimal
 
 from django.conf import settings
@@ -50,6 +51,10 @@ class OrderItem(models.Model):
 
     def calculate_total(self) -> Decimal:
         return self.product.price * self.quantity
+
+    @property
+    def get_date(self) -> str:
+        return self.order.created_at.strftime("%Y.%m.%d")
 
     def __str__(self) -> str:
         return f"{self.product}, quantity = {self.quantity}"

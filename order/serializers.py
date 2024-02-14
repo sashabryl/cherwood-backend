@@ -30,21 +30,14 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         raise ValidationError(f"{value} is not a possible choice.")
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderItemListSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ("product", "quantity", "calculate_total")
-
-
-class OrderListSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(read_only=True, format="%d/%m/%Y, %H:%M:%S")
-    order_items = OrderItemSerializer(many=True)
-
-    class Meta:
-        model = Order
         fields = (
             "id",
-            "total",
-            "created_at",
-            "order_items"
+            "get_date",
+            "product",
+            "quantity",
+            "calculate_total"
         )
+
