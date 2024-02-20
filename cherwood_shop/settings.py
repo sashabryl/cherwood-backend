@@ -73,6 +73,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -224,7 +225,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_HEADERS = True
 CORS_ALLOW_CSRF_COOKIE = True
 
-CSRF_TRUSTED_ORIGINS = [f"https://{APP_NAME}.fly.dev",]
+CSRF_TRUSTED_ORIGINS = [f"https://{APP_NAME}.fly.dev", "http://localhost:8000"]
 
 
 CART_SESSION_ID = f"cart-{uuid.uuid4()}"

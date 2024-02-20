@@ -29,9 +29,9 @@ class ProductViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericVi
         Product.objects.select_related()
         .prefetch_related(
             "images",
-            "buying_with_it__buying_with_it__product_set",
+            "buying_with_it",
             "category__subcategories__products",
-        )
+        ).select_related("category", "subcategory")
         .order_by("id")
     )
     serializer_class = ProductSerializer
