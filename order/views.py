@@ -1,9 +1,10 @@
 from django.db import transaction
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 
 from order.models import Order, OrderItem
-from order.serializers import OrderCreateSerializer
+from order.serializers import OrderCreateSerializer, OrderItemListSerializer
 from order.tasks import send_email
 from shop.services import Cart
 
@@ -29,3 +30,15 @@ class OrderCreateView(generics.CreateAPIView):
                 )
             cart.clear()
             send_email.delay(order.id)
+
+
+class OrderListView(generics.ListAPIView):
+    serializer_class = OrderItemListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return (
+            OrderItem.objects.
+            filter(order__email=self.request.user.email).
+            order_by("-order__created_at")
+        )

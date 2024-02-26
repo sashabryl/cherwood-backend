@@ -19,20 +19,7 @@ class UserManageView(generics.RetrieveUpdateAPIView):
     permission_classes = [
         IsAuthenticated,
     ]
+    queryset = get_user_model().objects.all().prefetch_related("favorites")
 
     def get_object(self):
         return self.request.user
-
-    def get_queryset(self):
-        queryset = get_user_model().objects.all().prefetch_related("favorites")
-
-class OrderListView(generics.ListAPIView):
-    serializer_class = OrderItemListSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return (
-            OrderItem.objects.
-            filter(order__email=self.request.user.email).
-            order_by("-order__created_at")
-        )
